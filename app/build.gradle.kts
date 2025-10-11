@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,6 +19,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").inputStream())
+        val apiKey = properties.getProperty("GIPHY_API_KEY", "")
+
+        buildConfigField("String", "GIPHY_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -37,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -69,7 +78,6 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.kotlin.serialization)
     implementation(libs.okhttp)
-    implementation(libs.okhttp.logging)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -80,6 +88,7 @@ dependencies {
 
     // Koin
     implementation(project.dependencies.platform(libs.koin.bom))
+    implementation(libs.koin.android)
     implementation(libs.koin.core)
 
     // Room
