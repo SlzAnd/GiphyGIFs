@@ -10,6 +10,7 @@ activityCompose = "1.11.0"
 composeBom = "2025.10.00"
 
 # Networking
+materialIconsExtended = "1.7.8"
 retrofit = "3.0.0"
 okhttp = "5.2.1"
 kotlinxSerializationJson = "1.9.0"
@@ -18,7 +19,7 @@ kotlinxSerializationJson = "1.9.0"
 coil = "2.7.0"
 
 # Koin DI
-koin-bom = "4.1.1"
+koin = "4.1.1"
 
 # Room Database
 room = "2.8.2"
@@ -35,6 +36,7 @@ coroutines = "1.10.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -61,9 +63,9 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 coil-gif = { group = "io.coil-kt", name = "coil-gif", version.ref = "coil" }
 
 # Koin
-koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
-koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin-bom" }
-koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-androidx-navigation = { module = "io.insert-koin:koin-androidx-navigation", version.ref = "koin" }
 
 # Room
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }

@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.extended)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -87,9 +88,9 @@ dependencies {
     implementation(libs.coil.gif)
 
     // Koin
-    implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.android)
-    implementation(libs.koin.core)
+    implementation(libs.koin.androidx.navigation)
+    implementation(libs.koin.androidx.compose)
 
     // Room
     implementation(libs.room.runtime)

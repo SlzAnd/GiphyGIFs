@@ -8,10 +8,13 @@ import com.andrews.giphygifs.data.local.GiphyDatabase
 import com.andrews.giphygifs.data.local.RemoteKeysDao
 import com.andrews.giphygifs.data.remote.GiphyApi
 import com.andrews.giphygifs.domain.MainRepository
+import com.andrews.giphygifs.ui.screen.details.DetailsViewModel
+import com.andrews.giphygifs.ui.screen.home.HomeViewModel
 import com.andrews.giphygifs.utils.AppConstants.GIPHY_API_BASE_URL
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -60,4 +63,11 @@ val appModule = module {
         MainRepositoryImpl(api = get(), database = get())
     }
 
+    viewModel {
+        HomeViewModel(repository = get())
+    }
+
+    viewModel {
+        DetailsViewModel(repository = get())
+    }
 }

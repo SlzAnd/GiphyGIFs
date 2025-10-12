@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">GiphyGIFs</string>
+    <string name="trending_gifs">Trending GIFs</string>
+    <string name="search_results">Search Results</string>
+    <string name="search_gifs">Search GIFs…</string>
+
+
+    <string name="error_loading_gifs">Error loading GIFs</string>
+    <string name="pull_to_refresh">Pull to refresh</string>
+    <string name="no_gifs">Oops… No GIFs found</string>
+    <string name="error_loading_more_gifs">Error loading more GIFs</string>
+    <string name="failed_to_load_gif">Failed to load GIF</string>
+    <string name="swipe_to_next">Swipe to next</string>
 </resources>
