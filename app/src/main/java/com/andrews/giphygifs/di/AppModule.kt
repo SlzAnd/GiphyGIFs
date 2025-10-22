@@ -1,13 +1,13 @@
 package com.andrews.giphygifs.di
 
 import androidx.room.Room
-import com.andrews.giphygifs.data.MainRepositoryImpl
+import com.andrews.giphygifs.data.GifsRepositoryImpl
 import com.andrews.giphygifs.data.local.DeletedGifDao
 import com.andrews.giphygifs.data.local.GifDao
 import com.andrews.giphygifs.data.local.GiphyDatabase
 import com.andrews.giphygifs.data.local.RemoteKeysDao
 import com.andrews.giphygifs.data.remote.GiphyApi
-import com.andrews.giphygifs.domain.MainRepository
+import com.andrews.giphygifs.domain.GifsRepository
 import com.andrews.giphygifs.ui.screen.details.DetailsViewModel
 import com.andrews.giphygifs.ui.screen.home.HomeViewModel
 import com.andrews.giphygifs.utils.AppConstants.GIPHY_API_BASE_URL
@@ -59,8 +59,14 @@ val appModule = module {
             .create(GiphyApi::class.java)
     }
 
-    single<MainRepository> {
-        MainRepositoryImpl(api = get(), database = get())
+    single<GifsRepository> {
+        GifsRepositoryImpl(
+            api = get(),
+            database = get<GiphyDatabase>(),
+            gifDao = get<GifDao>(),
+            deletedGifDao = get<DeletedGifDao>(),
+            remoteKeysDao = get<RemoteKeysDao>()
+        )
     }
 
     viewModel {

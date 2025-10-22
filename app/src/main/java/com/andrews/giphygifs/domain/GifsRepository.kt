@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.andrews.giphygifs.domain.model.Gif
 import kotlinx.coroutines.flow.Flow
 
-interface MainRepository {
+interface GifsRepository {
 
     /**
      * Get paginated GIFs based on search query

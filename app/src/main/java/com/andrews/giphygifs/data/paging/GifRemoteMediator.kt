@@ -6,7 +6,10 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.andrews.giphygifs.BuildConfig
+import com.andrews.giphygifs.data.local.DeletedGifDao
+import com.andrews.giphygifs.data.local.GifDao
 import com.andrews.giphygifs.data.local.GiphyDatabase
+import com.andrews.giphygifs.data.local.RemoteKeysDao
 import com.andrews.giphygifs.data.local.entity.GifEntity
 import com.andrews.giphygifs.data.local.entity.RemoteKeysEntity
 import com.andrews.giphygifs.data.mappers.toEntityList
@@ -18,13 +21,13 @@ import java.io.IOException
 class GifRemoteMediator(
     private val query: String,
     private val api: GiphyApi,
-    private val database: GiphyDatabase
+    private val database: GiphyDatabase,
+    private val gifDao: GifDao,
+    private val deletedGifDao: DeletedGifDao,
+    private val remoteKeysDao: RemoteKeysDao
 ) : RemoteMediator<Int, GifEntity>() {
 
     private val apiKey = BuildConfig.GIPHY_API_KEY
-    private val gifDao = database.gifDao()
-    private val deletedGifDao = database.deletedGifDao()
-    private val remoteKeysDao = database.remoteKeysDao()
 
     override suspend fun load(
         loadType: LoadType,
@@ -39,6 +42,7 @@ class GifRemoteMediator(
                         ?: return MediatorResult.Success(endOfPaginationReached = true)
                     prevPage
                 }
+
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
                     val nextPage = remoteKeys?.nextKey
@@ -83,7 +87,8 @@ class GifRemoteMediator(
                 }
 
                 val prevKey = if (page == INITIAL_PAGE) null else page - 1
-                val nextKey = if (endOfPaginationReached) null else page + (gifs.size / state.config.pageSize)
+                val nextKey =
+                    if (endOfPaginationReached) null else page + (gifs.size / state.config.pageSize)
                 val remoteKeys = filteredGifs.map { gif ->
                     RemoteKeysEntity(
                         gifId = gif.id,

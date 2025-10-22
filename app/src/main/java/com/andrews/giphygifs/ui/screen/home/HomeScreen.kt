@@ -43,10 +43,9 @@ fun HomeScreen(
     val gifsPagingItems = viewModel.gifsPagingFlow.collectAsLazyPagingItems()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(state.error) {
-        state.error?.let { error ->
+    LaunchedEffect(Unit) {
+        viewModel.errorEvent.collect { error ->
             snackbarHostState.showSnackbar(error)
-            viewModel.onErrorShown()
         }
     }
 
@@ -77,7 +76,7 @@ fun HomeScreen(
             SearchBarDefaults.InputField(
                 query = state.searchQuery,
                 onQueryChange = viewModel::onSearchQueryChange,
-                onSearch = { viewModel.onSearchSubmit() },
+                onSearch = {},
                 expanded = false,
                 onExpandedChange = {},
                 placeholder = { Text(stringResource(R.string.search_gifs)) },

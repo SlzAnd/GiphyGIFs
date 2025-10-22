@@ -3,10 +3,10 @@ package com.andrews.giphygifs.ui.screen.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.andrews.giphygifs.domain.MainRepository
+import com.andrews.giphygifs.domain.GifsRepository
 
 class DetailsViewModel(
-    repository: MainRepository,
+    repository: GifsRepository,
 ) : ViewModel() {
 
     val gifsPagingFlow = repository.getCachedGifsPaged()

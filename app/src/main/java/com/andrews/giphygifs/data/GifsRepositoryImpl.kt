@@ -5,23 +5,26 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.andrews.giphygifs.data.local.DeletedGifDao
+import com.andrews.giphygifs.data.local.GifDao
 import com.andrews.giphygifs.data.local.GiphyDatabase
+import com.andrews.giphygifs.data.local.RemoteKeysDao
 import com.andrews.giphygifs.data.local.entity.DeletedGifEntity
 import com.andrews.giphygifs.data.mappers.toDomain
 import com.andrews.giphygifs.data.paging.GifRemoteMediator
 import com.andrews.giphygifs.data.remote.GiphyApi
-import com.andrews.giphygifs.domain.MainRepository
+import com.andrews.giphygifs.domain.GifsRepository
 import com.andrews.giphygifs.domain.model.Gif
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MainRepositoryImpl(
+class GifsRepositoryImpl(
     private val api: GiphyApi,
-    private val database: GiphyDatabase
-): MainRepository {
-
-    private val gifDao = database.gifDao()
-    private val deletedGifDao = database.deletedGifDao()
+    private val database: GiphyDatabase,
+    private val gifDao: GifDao,
+    private val deletedGifDao: DeletedGifDao,
+    private val remoteKeysDao: RemoteKeysDao
+) : GifsRepository {
 
     @OptIn(ExperimentalPagingApi::class)
     override fun getGifs(query: String): Flow<PagingData<Gif>> {
@@ -35,7 +38,10 @@ class MainRepositoryImpl(
             remoteMediator = GifRemoteMediator(
                 query = query,
                 api = api,
-                database = database
+                database = database,
+                gifDao = gifDao,
+                deletedGifDao = deletedGifDao,
+                remoteKeysDao = remoteKeysDao
             ),
             pagingSourceFactory = { gifDao.getAllGifs() }
         ).flow.map { pagingData ->
